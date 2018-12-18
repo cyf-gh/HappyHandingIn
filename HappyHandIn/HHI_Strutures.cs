@@ -19,5 +19,7 @@ namespace HappyHandIn {
         public int start { get; set; }
         public int end { get; set; }
         public List<int>numbers { get; set;}
+        public string include { get; set; }
+        public string exclude { get; set; }
     }
 }

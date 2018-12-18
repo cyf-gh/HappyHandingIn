@@ -34,6 +34,8 @@
             this.textbox_regex = new System.Windows.Forms.MaskedTextBox();
             this.static_regex = new System.Windows.Forms.Label();
             this.static_prefix = new System.Windows.Forms.Label();
+            this.tb_dl = new System.Windows.Forms.MaskedTextBox();
+            this.static_dl = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textbox_workname
@@ -131,11 +133,30 @@
             this.static_prefix.TabIndex = 12;
             this.static_prefix.Text = "预设";
             // 
+            // tb_dl
+            // 
+            this.tb_dl.Enabled = false;
+            this.tb_dl.Location = new System.Drawing.Point(212, 92);
+            this.tb_dl.Name = "tb_dl";
+            this.tb_dl.Size = new System.Drawing.Size(100, 21);
+            this.tb_dl.TabIndex = 13;
+            // 
+            // static_dl
+            // 
+            this.static_dl.AutoSize = true;
+            this.static_dl.Location = new System.Drawing.Point(210, 77);
+            this.static_dl.Name = "static_dl";
+            this.static_dl.Size = new System.Drawing.Size(53, 12);
+            this.static_dl.TabIndex = 14;
+            this.static_dl.Text = "截止日期";
+            // 
             // Form_CreateNewHandIn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(345, 261);
+            this.Controls.Add(this.static_dl);
+            this.Controls.Add(this.tb_dl);
             this.Controls.Add(this.static_prefix);
             this.Controls.Add(this.static_regex);
             this.Controls.Add(this.textbox_regex);
@@ -169,5 +190,7 @@
         private System.Windows.Forms.MaskedTextBox textbox_regex;
         private System.Windows.Forms.Label static_regex;
         private System.Windows.Forms.Label static_prefix;
+        private System.Windows.Forms.MaskedTextBox tb_dl;
+        private System.Windows.Forms.Label static_dl;
     }
 }

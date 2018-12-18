@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Xml;
+using System.Text.RegularExpressions;
 
 namespace HappyHandIn {
     public class HHI_Module {
@@ -16,7 +17,7 @@ namespace HappyHandIn {
         private static string m_handInPath = Environment.CurrentDirectory + "\\hhi.xml";
         private static XmlDocument m_prefixxml = new XmlDocument();
         private static  XmlDocument m_handInxml = new XmlDocument();
-
+        
         public static void LoadPrefixs() {
             m_prefixxml.Load(m_prefixPath);
             //<prefixs>
@@ -31,6 +32,8 @@ namespace HappyHandIn {
                 XmlNodeList prefixInfos = node.ChildNodes;
                 tmp.start = Convert.ToInt32(prefixInfos.Item(0).InnerText);
                 tmp.end = Convert.ToInt32(prefixInfos.Item(1).InnerText);
+                tmp.include = prefixInfos.Item(2).InnerText;
+                tmp.exclude = prefixInfos.Item(3).InnerText;
                 tmp.id = i;
                 listPrefixes.Add(tmp);
                 ++i;
@@ -95,9 +98,15 @@ namespace HappyHandIn {
                 start.InnerText = item.start.ToString();
                 XmlElement end = handinXML.CreateElement("end_id");
                 end.InnerText = item.end.ToString();
+                XmlElement include = handinXML.CreateElement("include");
+                include.InnerText = item.include;
+                XmlElement exclude = handinXML.CreateElement("exclude");
+                exclude.InnerText = item.exclude;
 
                 hhi.AppendChild(start);
                 hhi.AppendChild(end);
+                hhi.AppendChild(include);
+                hhi.AppendChild(exclude);
 
                 rootElement.AppendChild(hhi);
             }
@@ -148,6 +157,84 @@ namespace HappyHandIn {
                     //list.Add(NextFile.FullName);
             }
             return list;
+        }
+
+        public static List<string> GetFileNames(HHI_HandIn hi) {
+            List<string> files;
+            // process folder
+            if (hi.isSubItemFolder)
+            {
+                // process file
+                files = HHI_Module.FindFolders(hi.path);
+            }
+            else
+            {
+                // process file
+                files = HHI_Module.FindFile(hi.path);
+            }
+            return files;
+        }
+
+        public static List<int> GetPrefixIndexList(HHI_Prefix prefix) {
+            List<int> digit = new List<int>();
+            for (int i = 0; i < (prefix.end - prefix.start + 1); i++)
+            {
+                digit.Add(prefix.start + i);
+            }
+            string[] includeIndexs = prefix.include.Split(';');
+            string[] excludeIndexs = prefix.exclude.Split(';');
+
+            for (int i = 0; i < digit.Count; i++)
+            {
+                for (int j = 0; j < excludeIndexs.Count(); j++)
+                {
+                    if (Convert.ToInt32(excludeIndexs[j]) == digit[i])
+                    {
+                        digit.RemoveAt(i);
+                        break;
+                    }
+                }
+            }
+
+            foreach (var item in includeIndexs)
+            {
+                digit.Add(Convert.ToInt32(item));
+            }
+
+            return digit;
+        }
+        
+        public static List<int> GetUnAttachedWorkIndexs( HHI_HandIn hi, HHI_Prefix prefix ) {
+            List<int> digit = GetPrefixIndexList( prefix );
+            List<string> files = GetFileNames( hi );
+
+            foreach (var file in files)
+            {
+                string strRet = FileNameToIndex(file);
+                if (strRet.Equals(""))
+                {
+                    continue;
+                }
+                for (int j = 0; j < digit.Count; ++j)
+                {
+                    if (digit[j] == Convert.ToInt32(strRet))
+                    {
+                        digit.Remove(digit[j]);
+                        break;
+                    }
+                }
+            }
+            return digit;
+        }
+        public static string FileNameToIndex( string filename ) {
+            string pattern = "[0-9]";
+            string strRet = "";
+            MatchCollection results = Regex.Matches(filename, pattern);
+            foreach (var v in results)
+            {
+                strRet += v.ToString();
+            }
+            return strRet;
         }
         }
     }

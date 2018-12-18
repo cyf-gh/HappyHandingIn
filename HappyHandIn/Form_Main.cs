@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.IO;
-using System.Text.RegularExpressions;
 
 namespace HappyHandIn {
     public partial class Form_Main : Form {
@@ -65,65 +64,55 @@ namespace HappyHandIn {
             ProcessCheck();
         }
 
-        private void ProcessCheck() {
-            HHI_Prefix tprefix = null;
-            List<int> digit = new List<int>();
-            List<string> files;
-
+        private HHI_HandIn GetCurrentHandIn() {
             foreach (var item in HHI_Module.listHandInData) {
                 if (item.name == comboBox_handIns.Text) {
-                    // get prefix
-                    foreach (var prefix in HHI_Module.listPrefixes) {
-                        if (prefix.name == item.prefix_name) {
-                            tprefix = prefix;
-                        }
-                    }
-                    if ( tprefix == null ) {
-                        m_output += "错误：无该预设\n";
-                    }
-                    // process folder
-                    if (item.isSubItemFolder) {
-                        // process file
-                        files = HHI_Module.FindFolders(item.path);
-                    } else {
-                    // process file
-                        files = HHI_Module.FindFile(item.path);
-                    }
-
-                    for (int i = 0; i < (tprefix.end - tprefix.start + 1); i++) {
-                        digit.Add(tprefix.start + i);
-                    }
-                    foreach (var file in files) {
-                        string pattern = "[0-9]";
-                        string strRet = "";
-                        MatchCollection results = Regex.Matches(file, pattern);
-                        foreach (var v in results) {
-                            strRet += v.ToString();
-                        }
-                        for (int j = 0; j < digit.Count; ++j) {
-                            if (digit[j] == Convert.ToInt32(strRet)) {
-                                digit.Remove(digit[j]);
-                                break;
-                            }
-                        }
-                    }
-
-                    m_output += "\n" + "[" + System.DateTime.Now.ToString() + "]" +"\n" + "作业名: " + item.name + "\n\n";
-                    // !process file
-                    if (digit.Count == 0) {
-                        m_output += "已全部收齐！";
-                    } else {
-                        m_output += "以下编号尚未交作业：" + "\n";
-                        foreach (var d in digit) {
-                            m_output += d.ToString() + "   ";
-                        }
-                        m_output += "\n" + "共" + digit.Count.ToString() +"人";
-                    }
-                    
-                    label_resultOutPut.Text = m_output;
-                    return;
+                    return item;
                 }
             }
+            return null;
+        }
+
+        private HHI_Prefix GetCurrentHandInsPrefix() {
+            HHI_HandIn hi = GetCurrentHandIn();
+            foreach (var prefix in HHI_Module.listPrefixes) {
+                if (prefix.name == hi.prefix_name) {
+                    return prefix;
+                }
+            }
+            return null;
+        }
+
+        private void ProcessCheck() {
+            HHI_Prefix tprefix = GetCurrentHandInsPrefix();
+            HHI_HandIn hi = GetCurrentHandIn();
+
+            if (!Directory.Exists(hi.path)) {
+                MessageBox.Show("错误：作业路径不存在\n"+"当前该方案的路径为"+hi.path+"\n请检查错误");
+                return;
+            }
+
+            if ( tprefix == null ) {
+                m_output += "错误：无该预设\n";
+            }
+
+            List<int> digit = HHI_Module.GetUnAttachedWorkIndexs(hi, tprefix);
+
+            m_output += "\n" + "[" + System.DateTime.Now.ToString() + "]" + "\n" + "作业名: " + hi.name + "\n\n";
+            // !process file
+            if (digit.Count == 0) {
+                m_output += "已全部收齐！";
+            } else {
+                m_output += "以下编号尚未交作业：" + "\n";
+                foreach (var d in digit) {
+                    m_output += d.ToString() + "   ";
+                }
+                m_output += "\n" + "共" + digit.Count.ToString() +"人";
+            }
+                    
+            label_resultOutPut.Text = m_output;
+            return;
+
         }
 
         private void saveToolStripMenuItem_Click(Object sender, EventArgs e) {
@@ -144,11 +133,86 @@ namespace HappyHandIn {
         }
 
         private void 关于ToolStripMenuItem_Click(Object sender, EventArgs e) {
-            MessageBox.Show("cyf 2018\nMail: cyf-ms@hotmail.com\n本软件遵守类zlib开源协议");
+
         }
 
         private void saveLogToolStripMenuItem_Click(Object sender, EventArgs e) {
             HHI_Module.SaveLog(m_log);
+        }
+
+        private void btn_attach_Click(object sender, EventArgs e) {
+            HHI_HandIn hi = GetCurrentHandIn();
+            HHI_Prefix prefix = GetCurrentHandInsPrefix();
+            string name;
+            string studentIndex;
+            string srcPath;
+
+            if (hi.isSubItemFolder) {
+                folderBrowserDialog1.ShowDialog();
+                srcPath = folderBrowserDialog1.SelectedPath;
+                name = folderBrowserDialog1.SelectedPath.Substring(folderBrowserDialog1.SelectedPath.LastIndexOf('\\') + 1);               
+            } else {
+                openFileDialog1.ShowDialog();
+                srcPath = openFileDialog1.FileName;
+                name = openFileDialog1.FileName.Substring(openFileDialog1.FileName.LastIndexOf('\\') + 1);
+            }
+            if (srcPath == "") {
+                return;
+            }
+            studentIndex = HHI_Module.FileNameToIndex(name);
+            int nStudentIndex = Convert.ToInt32(studentIndex);
+            if (stUtils.list_operate.IsIn(HHI_Module.GetPrefixIndexList(prefix), nStudentIndex))
+            {
+                MessageBox.Show("目前的学号为：" + studentIndex + " 学号有误，请重新检查", "错误");
+                return;
+            }
+
+            if (stUtils.list_operate.IsIn(HHI_Module.GetUnAttachedWorkIndexs(hi, GetCurrentHandInsPrefix()), nStudentIndex))
+            {
+                if (MessageBox.Show("学号: " + studentIndex + " 已经提交，是否要覆盖？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                {
+                    // Yes
+                    stUtils.file_opreate.Copy(srcPath, hi.path, hi.isSubItemFolder);
+                }
+                else
+                {
+                    // No
+                    return;
+                }
+            }
+            stUtils.file_opreate.Copy(srcPath, hi.path, hi.isSubItemFolder);
+            m_output += "\n" + "[" + System.DateTime.Now.ToString() + "]" + "学号为: " + studentIndex + " 的同学，已提交作业！\n";
+            label_resultOutPut.Text = m_output;
+            m_log +=  m_output;
+        }
+
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            
+        }
+
+        private void detailsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("cyf 2018\nMail: cyf-ms@hotmail.com\n本软件遵守类zlib开源协议");
+        }
+
+        private void btn_openfolderinexplore_Click(object sender, EventArgs e) {
+            HHI_HandIn hi = GetCurrentHandIn();
+            if (!Directory.Exists(hi.path)) {
+                MessageBox.Show("错误：作业路径不存在\n"+"当前该方案的路径为"+hi.path+"\n请检查错误");
+                return;
+            }
+            System.Diagnostics.Process.Start("explorer.exe", hi.path);
+        }
+
+        private void btn_detailsofhhi_Click(object sender, EventArgs e)
+        {
+            HHI_HandIn hhi = GetCurrentHandIn();
+            MessageBox.Show(
+                "作业名称：" + hhi.name +
+                "\n作业路径：" +hhi.path +
+                "\n作业预设方案：" + hhi.prefix_name
+                );
         }
     }
 }

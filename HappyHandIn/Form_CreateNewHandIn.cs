@@ -59,6 +59,17 @@ namespace HappyHandIn {
                 }
             }
             valiedDataSet = true;
+
+            HHI_HandIn hi = new HHI_HandIn();
+            hi.id = HHI_Module.listHandInData.Count;
+            hi.isSubItemFolder = checkbox_IsFolder.Checked;
+            hi.name = textbox_workname.Text;
+            hi.path = folderBrow.SelectedPath;
+            hi.regex = textbox_regex.Text;
+            hi.prefix_name = combox_prefix.Text;
+
+            HHI_Module.listHandInData.Add(hi);
+            this.Close();
         }
 
         private void Form_CreateNewHandIn_Load(Object sender, EventArgs e) {
