@@ -25,13 +25,6 @@ namespace HappyHandIn {
         private void newHandInToolStripMenuItem_Click(Object sender, EventArgs e) {
             Form_CreateNewHandIn tForm_CreateNewHandIn = new Form_CreateNewHandIn();
             tForm_CreateNewHandIn.ShowDialog();
-
-            bool isValiedData;
-            HHI_HandIn data = tForm_CreateNewHandIn.GetData(out isValiedData);
-
-            if (isValiedData) {
-                HHI_Module.listHandInData.Add(data);
-            }
         }
 
         private void Form_Main_Load(Object sender, EventArgs e) {
@@ -161,7 +154,7 @@ namespace HappyHandIn {
             }
             studentIndex = HHI_Module.FileNameToIndex(name);
             int nStudentIndex = Convert.ToInt32(studentIndex);
-            if (stUtils.list_operate.IsIn(HHI_Module.GetPrefixIndexList(prefix), nStudentIndex))
+            if (!stUtils.list_operate.IsIn(HHI_Module.GetPrefixIndexList(prefix), nStudentIndex))
             {
                 MessageBox.Show("目前的学号为：" + studentIndex + " 学号有误，请重新检查", "错误");
                 return;

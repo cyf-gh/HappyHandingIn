@@ -23,21 +23,6 @@ namespace HappyHandIn {
                 textbox_regex.Enabled = false;
             }
         }
-
-        public HHI_HandIn GetData(out bool isvaliedDataSet) {
-            isvaliedDataSet = valiedDataSet;
-            if (valiedDataSet) {
-                return new HHI_HandIn() {
-                    name = textbox_workname.Text,
-                    isSubItemFolder = textbox_regex.Enabled,
-                    path = folderBrow.SelectedPath,
-                    regex = textbox_regex.Text,
-                    prefix_name = combox_prefix.Text
-                };
-            } else {
-                return new HHI_HandIn();
-            }
-        }
         private void btn_openpath_Click(Object sender, EventArgs e) {
             folderBrow.ShowDialog();
             static_path_name.Text = "路径：" + folderBrow.SelectedPath;
