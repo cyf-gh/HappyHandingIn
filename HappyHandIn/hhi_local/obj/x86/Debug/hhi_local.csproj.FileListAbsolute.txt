@@ -1,0 +1,17 @@
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_local\obj\x86\Debug\hhi_local.csprojAssemblyReference.cache
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_local\obj\x86\Debug\hhi_local.csproj.GenerateResource.cache
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_local\obj\x86\Debug\hhi_local.csproj.CoreCompileInputs.cache
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_local\obj\x86\Debug\hhi_local.Form_CreateNewHandIn.resources
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_local\obj\x86\Debug\hhi_local.Form_Main.resources
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_local\obj\x86\Debug\hhi_local.Form_Prefix.resources
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_local\bin\Debug\hhi_modules.dll
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_local\bin\Debug\stLib_CS.dll
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_local\bin\Debug\hhi_modules.pdb
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_local\bin\Debug\stLib_CS.pdb
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_local\obj\x86\Debug\hhi_local.csproj.CopyComplete
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_local\bin\Debug\hhi_local.exe.config
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_local\bin\Debug\hhi_local.exe
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_local\bin\Debug\hhi_local.pdb
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_local\obj\x86\Debug\hhi_local.Properties.Resources.resources
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_local\obj\x86\Debug\hhi_local.exe
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_local\obj\x86\Debug\hhi_local.pdb

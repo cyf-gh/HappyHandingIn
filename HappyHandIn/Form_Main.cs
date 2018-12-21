@@ -154,18 +154,18 @@ namespace HappyHandIn {
             }
             studentIndex = HHI_Module.FileNameToIndex(name);
             int nStudentIndex = Convert.ToInt32(studentIndex);
-            if (!stUtils.list_operate.IsIn(HHI_Module.GetPrefixIndexList(prefix), nStudentIndex))
+            if (!stUtils.generic.IsIn(HHI_Module.GetPrefixIndexList(prefix), nStudentIndex))
             {
                 MessageBox.Show("目前的学号为：" + studentIndex + " 学号有误，请重新检查", "错误");
                 return;
             }
 
-            if (stUtils.list_operate.IsIn(HHI_Module.GetUnAttachedWorkIndexs(hi, GetCurrentHandInsPrefix()), nStudentIndex))
+            if (stUtils.generic.IsIn(HHI_Module.GetUnAttachedWorkIndexs(hi, prefix), nStudentIndex))
             {
                 if (MessageBox.Show("学号: " + studentIndex + " 已经提交，是否要覆盖？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                 {
                     // Yes
-                    stUtils.file_opreate.Copy(srcPath, hi.path, hi.isSubItemFolder);
+                    stUtils.file.Copy(srcPath, hi.path, hi.isSubItemFolder);
                 }
                 else
                 {
@@ -173,7 +173,10 @@ namespace HappyHandIn {
                     return;
                 }
             }
-            stUtils.file_opreate.Copy(srcPath, hi.path, hi.isSubItemFolder);
+            else
+            {
+                stUtils.file.Copy(srcPath, hi.path, hi.isSubItemFolder);
+            }
             m_output += "\n" + "[" + System.DateTime.Now.ToString() + "]" + "学号为: " + studentIndex + " 的同学，已提交作业！\n";
             label_resultOutPut.Text = m_output;
             m_log +=  m_output;

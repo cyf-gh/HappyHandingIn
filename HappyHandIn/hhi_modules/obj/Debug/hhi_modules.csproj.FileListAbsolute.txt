@@ -1,0 +1,9 @@
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_modules\bin\Debug\hhi_modules.dll
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_modules\bin\Debug\hhi_modules.pdb
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_modules\obj\Debug\hhi_modules.csprojAssemblyReference.cache
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_modules\obj\Debug\hhi_modules.csproj.CoreCompileInputs.cache
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_modules\obj\Debug\hhi_modules.dll
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_modules\obj\Debug\hhi_modules.pdb
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_modules\bin\Debug\stLib_CS.dll
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_modules\bin\Debug\stLib_CS.pdb
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_modules\obj\Debug\hhi_modules.csproj.CopyComplete

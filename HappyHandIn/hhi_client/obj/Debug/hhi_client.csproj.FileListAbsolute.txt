@@ -1,0 +1,15 @@
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_client\bin\Debug\hhi_client.exe.config
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_client\bin\Debug\hhi_client.exe
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_client\bin\Debug\hhi_client.pdb
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_client\bin\Debug\stLib_CS.dll
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_client\bin\Debug\stLib_CS.pdb
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_client\obj\Debug\hhi_client.csprojAssemblyReference.cache
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_client\obj\Debug\hhi_client.Main_Frame.resources
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_client\obj\Debug\hhi_client.Properties.Resources.resources
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_client\obj\Debug\hhi_client.csproj.GenerateResource.cache
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_client\obj\Debug\hhi_client.csproj.CoreCompileInputs.cache
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_client\obj\Debug\hhi_client.csproj.CopyComplete
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_client\obj\Debug\hhi_client.exe
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_client\obj\Debug\hhi_client.pdb
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_client\bin\Debug\hhi_modules.dll
+C:\dev\projects\HappyHandingIn\HappyHandIn\hhi_client\bin\Debug\hhi_modules.pdb
